@@ -34,6 +34,8 @@ Info(D) = −Σ_i p_i log2 p_i
         = 0.9403 bits
 ```
 
+**Answer:** Info(D) = 0.9403 bits.
+
 A pure partition has Info = 0; a perfectly balanced two-class partition has Info = 1.
 
 ## M2. Information gain: choose the root
@@ -42,29 +44,46 @@ A pure partition has Info = 0; a perfectly balanced two-class partition has Info
 Info_A(D) = Σ_j |D_j|/|D| · Info(D_j)          Gain(A) = Info(D) − Info_A(D)
 ```
 
-**age:** youth (2 yes, 3 no), middle-aged (4, 0), senior (3, 2)
+**Attribute age:** youth 5 rows (2 yes, 3 no), middle-aged 4 rows (4 yes, 0 no), senior 5 rows (3 yes, 2 no)
 
 ```text
-Info_age(D) = 5/14 · 0.9710 + 4/14 · 0 + 5/14 · 0.9710 = 0.6935
+Info(youth)  = −[ 2/5 log2(2/5) + 3/5 log2(3/5) ] = −[ 0.4(−1.3219) + 0.6(−0.7370) ] = 0.9710
+Info(middle) = −[ 4/4 log2(4/4) ] = 0                                   (pure partition)
+Info(senior) = −[ 3/5 log2(3/5) + 2/5 log2(2/5) ] = 0.9710
+
+Info_age(D) = 5/14 (0.9710) + 4/14 (0) + 5/14 (0.9710) = 0.3468 + 0 + 0.3468 = 0.6935
 Gain(age)   = 0.9403 − 0.6935 = 0.2467
 ```
 
-**student:** yes (6, 1), no (3, 4)
+**Attribute student:** yes 7 rows (6 yes, 1 no), no 7 rows (3 yes, 4 no)
 
 ```text
-Info_student(D) = 7/14 · 0.5917 + 7/14 · 0.9852 = 0.7885      Gain = 0.1518
+Info(student=yes) = −[ 6/7 log2(6/7) + 1/7 log2(1/7) ] = −[ 0.8571(−0.2224) + 0.1429(−2.8074) ] = 0.5917
+Info(student=no)  = −[ 3/7 log2(3/7) + 4/7 log2(4/7) ] = −[ 0.4286(−1.2224) + 0.5714(−0.8074) ] = 0.9852
+
+Info_student(D) = 7/14 (0.5917) + 7/14 (0.9852) = 0.2959 + 0.4926 = 0.7885
+Gain(student)   = 0.9403 − 0.7885 = 0.1518
 ```
 
-**credit_rating:** fair (6, 2), excellent (3, 3)
+**Attribute credit_rating:** fair 8 rows (6 yes, 2 no), excellent 6 rows (3 yes, 3 no)
 
 ```text
-Info_credit(D) = 8/14 · 0.8113 + 6/14 · 1.0 = 0.8922          Gain = 0.0481
+Info(fair)      = −[ 6/8 log2(6/8) + 2/8 log2(2/8) ] = −[ 0.75(−0.4150) + 0.25(−2) ] = 0.8113
+Info(excellent) = −[ 3/6 log2(3/6) + 3/6 log2(3/6) ] = 1.0000                  (balanced)
+
+Info_credit(D)       = 8/14 (0.8113) + 6/14 (1.0000) = 0.4636 + 0.4286 = 0.8922
+Gain(credit_rating)  = 0.9403 − 0.8922 = 0.0481
 ```
 
-**income:** high (2, 2), medium (4, 2), low (3, 1)
+**Attribute income:** high 4 rows (2 yes, 2 no), medium 6 rows (4 yes, 2 no), low 4 rows (3 yes, 1 no)
 
 ```text
-Info_income(D) = 4/14 · 1.0 + 6/14 · 0.9183 + 4/14 · 0.8113 = 0.9111   Gain = 0.0292
+Info(high)   = 1.0000                                                     (balanced)
+Info(medium) = −[ 4/6 log2(4/6) + 2/6 log2(2/6) ] = −[ 0.6667(−0.5850) + 0.3333(−1.5850) ] = 0.9183
+Info(low)    = −[ 3/4 log2(3/4) + 1/4 log2(1/4) ] = 0.8113
+
+Info_income(D) = 4/14 (1) + 6/14 (0.9183) + 4/14 (0.8113) = 0.2857 + 0.3936 + 0.2318 = 0.9111
+Gain(income)   = 0.9403 − 0.9111 = 0.0292
 ```
 
 | Attribute | Info_A(D) | Gain(A) |
@@ -74,7 +93,7 @@ Info_income(D) = 4/14 · 1.0 + 6/14 · 0.9183 + 4/14 · 0.8113 = 0.9111   Gain =
 | credit_rating | 0.8922 | 0.0481 |
 | income | 0.9111 | 0.0292 |
 
-**age** has the highest gain and becomes the root. The middle-aged branch is pure, so it becomes a leaf labelled *yes*.
+**Answer:** **age** has the highest gain and becomes the root. The middle-aged branch is pure, so it becomes a leaf labelled *yes*.
 
 *(Computing with rounded intermediate values gives 0.2468; the exact value is 0.2467.)*
 
@@ -88,6 +107,8 @@ SplitInfo_income(D) = −[ 4/14 log2(4/14) + 6/14 log2(6/14) + 4/14 log2(4/14) ]
 
 GainRatio(income) = 0.0292 / 1.5567 = 0.0188
 ```
+
+**Answer:** SplitInfo_income(D) = 1.5567 bits and GainRatio(income) = 0.0188. (A smaller split-information value of 0.926 would give 0.031, but substituting the actual partition sizes 4, 6 and 4 gives 1.5567.)
 
 ## M4. Gini index (CART)
 
@@ -104,6 +125,24 @@ D2 = {high}:         4 tuples (2 yes, 2 no)   Gini(D2) = 1 − (0.5² + 0.5²) =
 Gini_income(D) = 10/14 · 0.420 + 4/14 · 0.500 = 0.4429
 ```
 
-Comparing all three binary splits of income: {low, medium} | {high} = 0.4429, {low, high} | {medium} = 0.4583, {medium, high} | {low} = 0.4500. The first has the **lowest** Gini, so it is the split CART would choose for this attribute.
+The other two binary splits of income:
+
+```text
+{low, high} vs {medium}:  D1 = 8 tuples (5 yes, 3 no)  Gini = 1 − (0.625² + 0.375²) = 0.4688
+                          D2 = 6 tuples (4 yes, 2 no)  Gini = 1 − (0.667² + 0.333²) = 0.4444
+                          Gini = 8/14 (0.4688) + 6/14 (0.4444) = 0.4583
+
+{medium, high} vs {low}:  D1 = 10 tuples (6 yes, 4 no) Gini = 1 − (0.6² + 0.4²) = 0.4800
+                          D2 = 4 tuples (3 yes, 1 no)  Gini = 1 − (0.75² + 0.25²) = 0.3750
+                          Gini = 10/14 (0.4800) + 4/14 (0.3750) = 0.4500
+```
+
+| Binary split of income | Gini_income(D) |
+|---|---:|
+| **{low, medium} vs {high}** | **0.4429** |
+| {medium, high} vs {low} | 0.4500 |
+| {low, high} vs {medium} | 0.4583 |
+
+**Answer:** Gini(D) = 0.4592. The split {low, medium} vs {high} has the **lowest** Gini (0.4429), so it is the best binary split on income. The reduction in impurity is `ΔGini = 0.4592 − 0.4429 = 0.0163`.
 
 For two classes, Gini ≤ 0.5 and Info ≤ 1, a quick sanity check on any hand calculation.

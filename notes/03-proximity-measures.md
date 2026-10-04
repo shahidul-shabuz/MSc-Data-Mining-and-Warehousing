@@ -38,7 +38,7 @@ Jack = (1, 0, 1, 0, 0, 0)    Mary = (1, 0, 1, 0, 1, 0)    Jim = (1, 1, 0, 0, 0, 
 | Jack, Jim | 1 | 1 | 1 | 2/3 = **0.67** |
 | Jim, Mary | 1 | 1 | 2 | 3/4 = **0.75** |
 
-Jack and Mary are the most similar, so they are the most likely to have the same condition; Jim and Mary are the least alike. Two patients both testing negative (t) carries no information here, which is why t is left out.
+**Answer:** d(Jack, Mary) = 0.33, d(Jack, Jim) = 0.67, d(Jim, Mary) = 0.75. Jack and Mary are the most similar, so they are the most likely to have the same condition; Jim and Mary are the least alike. Two patients both testing negative (t) carries no information here, which is why t is left out.
 
 ## M13. Minkowski distance: L1 and L2
 
@@ -61,7 +61,7 @@ x3     3   6   0              x3   2.24  5.10    0
 x4     6   1   7   0          x4   4.24  1.00  5.39    0
 ```
 
-The closest pair is x2–x4, and the farthest is x3–x4. Note that `L2 ≤ L1` always, and `h → ∞` gives the supremum distance `max_f |x_f − y_f|`.
+**Answer:** the two matrices above. The closest pair is x2–x4, and the farthest is x3–x4. Note that `L2 ≤ L1` always, and `h → ∞` gives the supremum distance `max_f |x_f − y_f|`.
 
 ## M14. Cosine similarity between documents
 
@@ -75,4 +75,4 @@ d1 · d2 = 15 + 6 + 2 + 2 = 25
 cos(d1, d2) = 25 / (6.481 × 4.123) = 0.94
 ```
 
-The documents are highly similar. Cosine measures **direction**, not length, so a short and a long document on the same topic still score high.
+**Answer:** cos(d1, d2) = 0.94. The documents are highly similar. Cosine measures **direction**, not length, so a short and a long document on the same topic still score high.

@@ -34,6 +34,8 @@ flowchart BT
 
 Read upward, this is AGNES (13 merges); read downward, it is DIANA (13 splits). Cutting the tree at any height gives a clustering; e.g., just below the top gives {abcdefgh} and {ilmnqt}. Neither method can undo a merge or split once it is made.
 
+**Answer:** 14 objects need 13 levels. AGNES merge order: ab, cd, ef, gh, il, mn, qt, (abcd), (efgh), (ilmn), (abcdefgh), (ilmnqt), (all); DIANA performs the same sequence in reverse as splits.
+
 ---
 
 ## M6. Clustering feature and additivity (BIRCH)
@@ -55,6 +57,8 @@ CF1 = ⟨3, (9, 10), (29, 38)⟩
 CF3 = ⟨3+3, (9+35, 10+36), (29+417, 38+440)⟩ = ⟨6, (44, 46), (446, 478)⟩
 ```
 
+**Answer:** CF1 = ⟨3, (9, 10), (29, 38)⟩ and CF3 = ⟨6, (44, 46), (446, 478)⟩.
+
 For 2-D data, SS is a **pair** (Σx², Σy²), not a single number.
 
 ## M7. Clustering feature of Cluster 3 (2023 exam, Q4a)
@@ -67,6 +71,8 @@ CF3 = CF1 + CF2 = ⟨6, (19, 21), (63, 83)⟩
 ```
 
 From CF3 alone: centroid `(19/6, 21/6) = (3.17, 3.50)` and radius `R = √[(63/6 − 3.1667²) + (83/6 − 3.5²)] = √(0.4722 + 1.5833) = 1.434`.
+
+**Answer:** CF3 = ⟨6, (19, 21), (63, 83)⟩.
 
 ## M8. Centroid, radius and diameter from a CF
 
@@ -82,6 +88,8 @@ diameter  Σ_i Σ_j ‖xᵢ − xⱼ‖² = Σ_dims (2N·SS − 2·LS²) = (174 
           D = √( 40 / (N(N−1)) ) = √(40/6) ≈ 2.58
 ```
 
+**Answer:** centroid (3, 3.33), radius ≈ 1.49, diameter ≈ 2.58.
+
 The denominator is `N(N − 1)` because the double sum counts each unordered pair twice and the N diagonal terms are zero. (Dividing by N² or N instead gives a different value, so the convention should be stated.)
 
 ---
@@ -96,6 +104,17 @@ sim(Tᵢ, Tⱼ) = |Tᵢ ∩ Tⱼ| / |Tᵢ ∪ Tⱼ|
 same cluster:       sim({a,b,c}, {b,d,e}) = 1/5 = 0.2
 different clusters: sim({a,b,c}, {a,b,f}) = 2/4 = 0.5
 ```
+
+**Range inside Cluster 1:** any two 3-item subsets of a 5-item set share either 1 or 2 items:
+
+```text
+share 1 item: |∩| = 1, |∪| = 5  →  sim = 1/5 = 0.2
+share 2 items: |∩| = 2, |∪| = 4  →  sim = 2/4 = 0.5
+```
+
+So within Cluster 1, similarity ranges from 0.2 to 0.5. (For two 3-item sets, `|∪| = 6 − |∩|`, so `sim = |∩| / (6 − |∩|)`.)
+
+**Answer:** intra-cluster sim({a,b,c}, {b,d,e}) = 0.2; inter-cluster sim({a,b,c}, {a,b,f}) = 0.5; within Cluster 1 the range is 0.2 to 0.5.
 
 Two transactions from **different** clusters score higher than two from the **same** cluster. A pairwise distance like Jaccard therefore produces poor clusters on categorical data, which motivates ROCK.
 
@@ -114,6 +133,8 @@ link({a,b,f}, {a,b,g}) = |{abc, abd, abe, afg, bfg}| = 5
 link({a,b,f}, {a,b,c}) = |{abd, abe, abg}|           = 3
 ```
 
+**Answer:** link({a,b,f}, {a,b,g}) = 5 and link({a,b,f}, {a,b,c}) = 3.
+
 Jaccard rates both pairs at 0.5 and cannot separate them. Links do: 5 > 3, so ROCK correctly groups {a,b,f} with {a,b,g}. Links capture **neighbourhood context** rather than isolated pairwise overlap.
 
 ---
@@ -127,7 +148,35 @@ Apply DBSCAN with `ε = 1.9` and `MinPts = 4` (the point itself counts) to:
 | x | 3 | 4 | 5 | 6 | 7 | 6 | 7 | 8 | 9 | 2 | 3 | 2 |
 | y | 7 | 6 | 5 | 4 | 3 | 2 | 2 | 4 | 5 | 6 | 5 | 4 |
 
-**Shortcut:** compare squared distances with `ε² = 3.61`. On integer coordinates only `Δx² + Δy² ∈ {1, 2}` qualifies; a sum of 4 means d = 2.0 > 1.9. Of the 66 pairs, **13** are neighbours.
+**Shortcut:** compare squared distances with `ε² = 1.9² = 3.61`. On integer coordinates only `Δx² + Δy² ∈ {1, 2}` qualifies (d = 1 or √2 = 1.414); a sum of 4 means d = 2.0 > 1.9. For example:
+
+```text
+d(P1, P2)²  = (4−3)² + (6−7)² = 1 + 1 = 2  ≤ 3.61  → neighbours (d = 1.414)
+d(P1, P3)²  = (5−3)² + (5−7)² = 4 + 4 = 8  > 3.61  → not neighbours (d = 2.828)
+d(P5, P7)²  = (7−7)² + (2−3)² = 0 + 1 = 1  ≤ 3.61  → neighbours (d = 1.000)
+d(P1, P11)² = (3−3)² + (5−7)² = 0 + 4 = 4  > 3.61  → not neighbours (d = 2.000)
+```
+
+**Full distance matrix** (all C(12,2) = 66 pairs; bold = within ε = 1.9; **13** neighbour pairs):
+
+| | P1 | P2 | P3 | P4 | P5 | P6 | P7 | P8 | P9 | P10 | P11 | P12 |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| **P1** | 0 | **1.41** | 2.83 | 4.24 | 5.66 | 5.83 | 6.40 | 5.83 | 6.32 | **1.41** | 2.00 | 3.16 |
+| **P2** | **1.41** | 0 | **1.41** | 2.83 | 4.24 | 4.47 | 5.00 | 4.47 | 5.10 | 2.00 | **1.41** | 2.83 |
+| **P3** | 2.83 | **1.41** | 0 | **1.41** | 2.83 | 3.16 | 3.61 | 3.16 | 4.00 | 3.16 | 2.00 | 3.16 |
+| **P4** | 4.24 | 2.83 | **1.41** | 0 | **1.41** | 2.00 | 2.24 | 2.00 | 3.16 | 4.47 | 3.16 | 4.00 |
+| **P5** | 5.66 | 4.24 | 2.83 | **1.41** | 0 | **1.41** | **1.00** | **1.41** | 2.83 | 5.83 | 4.47 | 5.10 |
+| **P6** | 5.83 | 4.47 | 3.16 | 2.00 | **1.41** | 0 | **1.00** | 2.83 | 4.24 | 5.66 | 4.24 | 4.47 |
+| **P7** | 6.40 | 5.00 | 3.61 | 2.24 | **1.00** | **1.00** | 0 | 2.24 | 3.61 | 6.40 | 5.00 | 5.39 |
+| **P8** | 5.83 | 4.47 | 3.16 | 2.00 | **1.41** | 2.83 | 2.24 | 0 | **1.41** | 6.32 | 5.10 | 6.00 |
+| **P9** | 6.32 | 5.10 | 4.00 | 3.16 | 2.83 | 4.24 | 3.61 | **1.41** | 0 | 7.07 | 6.00 | 7.07 |
+| **P10** | **1.41** | 2.00 | 3.16 | 4.47 | 5.83 | 5.66 | 6.40 | 6.32 | 7.07 | 0 | **1.41** | 2.00 |
+| **P11** | 2.00 | **1.41** | 2.00 | 3.16 | 4.47 | 4.24 | 5.00 | 5.10 | 6.00 | **1.41** | 0 | **1.41** |
+| **P12** | 3.16 | 2.83 | 3.16 | 4.00 | 5.10 | 4.47 | 5.39 | 6.00 | 7.07 | 2.00 | **1.41** | 0 |
+
+The 13 neighbour pairs: P1–P2, P1–P10, P2–P3, P2–P11, P3–P4, P4–P5, P5–P6, P5–P7, P5–P8, P6–P7, P8–P9, P10–P11, P11–P12.
+
+**Classify each point** (|N_ε(p)| includes p itself; core if ≥ 4):
 
 | Point | ε-neighbourhood | Size | Type |
 |---|---|---:|---|
@@ -153,5 +202,7 @@ Cluster A = {P1, P2, P3, P10, P11, P12}
 Cluster B = {P4, P5, P6, P7, P8}
 Noise     = {P9}
 ```
+
+**Answer:** core points P2, P5, P11; noise P9; all others are border points. Two clusters: {P1, P2, P3, P10, P11, P12} and {P4, P5, P6, P7, P8}.
 
 Unlike K-means, DBSCAN found the number of clusters itself and labelled the outlier explicitly.

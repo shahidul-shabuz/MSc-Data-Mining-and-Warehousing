@@ -18,8 +18,9 @@ Step-by-step solutions to the numerical problems in **CSE 6202: Data Mining and 
 | 03 | [Similarity and dissimilarity](notes/03-proximity-measures.md) | 7A | M12 Asymmetric binary · M13 Minkowski L1/L2 · M14 Cosine |
 | 04 | [Frequent patterns and association rules](notes/04-frequent-patterns-and-association-rules.md) | 7B | M15 Support/confidence · M16–M17 Apriori · M18 Rule generation · M19–M20 DHP · M21 Transaction reduction · M22 FP-Growth · M23 ECLAT · M24 Lift |
 | 05 | [Formula sheet](notes/05-formula-sheet.md) | — | Every formula used above, in one place |
+| 📘 | [**Complete math workbook (PDF)**](workbook/CSE6202-math-workbook.pdf) | 2.2–7B | My original workbook: all 24 problems, question then full solution, with diagrams and FP-tree construction drawings |
 
-Each solution states the question, writes out the formula, substitutes step by step, and ends with the answer and its interpretation.
+Each solution states the question, writes out the formula, substitutes step by step, and ends with an **Answer** line. The typed notes follow the [workbook PDF](workbook/CSE6202-math-workbook.pdf), which also contains the step-by-step diagrams.
 
 ## Highlights
 
