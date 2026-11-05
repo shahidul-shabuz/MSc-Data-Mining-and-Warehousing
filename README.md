@@ -7,7 +7,7 @@ Step-by-step solutions to the numerical problems in **CSE 6202: Data Mining and 
 | **Course** | CSE 6202: Data Mining and Warehousing — M.Sc. in CSE, Dhaka University of Engineering & Technology (DUET) |
 | **Semester** | 2nd semester |
 | **Course teacher** | [Prof. Dr. Momotaz Begum](https://profile.duet.ac.bd/u/drmomotaz), Professor and Head, Department of Computer Science and Engineering, DUET |
-| **Grade** | Result pending (expected 4 November 2026) |
+| **Grade** | A+ (above 90% marks; GPA 4.00 / 4.00) |
 
 ## Contents
 
